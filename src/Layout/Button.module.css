@@ -1,0 +1,22 @@
+.button {
+  cursor: pointer;
+  width: 200px;
+  font: inherit;
+  border: none;
+  background-color: rgb(37, 93, 224);
+  color: white;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.button:hover,
+.button:active {
+  background-color: #344c9b;
+}
+.button:disabled {
+  background-color: grey;
+}
