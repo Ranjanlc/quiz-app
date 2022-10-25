@@ -4,7 +4,7 @@ import classes from './QuizRender.module.css';
 import Card from '../Layout/Card';
 import { reportTeller } from '../helpers/helper';
 import { shuffleArray } from '../helpers/helper';
-import Button from '../Layout/Button';
+import LoadingSpinner from '../Layout/LoadingSpinner';
 let data = [];
 let totalCorrectAns = 0;
 const QuizRender = (props) => {
@@ -76,7 +76,7 @@ const QuizRender = (props) => {
   };
   return (
     <Card>
-      {isLoading && <p>Loading....</p>}
+      {isLoading && <LoadingSpinner />}
 
       {questionSet.length !== 0 && curQuestionNum !== limit && (
         <section className={classes.section}>
