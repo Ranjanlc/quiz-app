@@ -1,0 +1,25 @@
+.answer {
+  list-style: none;
+  text-align: center;
+}
+
+.answer li {
+  cursor: default;
+  padding: 20px 0px;
+  margin: 20px 0px;
+  width: 80%;
+  background-color: rgb(192, 209, 224);
+  border-radius: 20px;
+}
+li:hover {
+  background-color: rgb(176, 207, 209);
+}
+
+.correctAnswer {
+  outline: 2px solid;
+  outline-color: green;
+}
+.incorrectAnswer {
+  outline: 2px solid;
+  outline-color: red;
+}

@@ -1,18 +1,21 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import classes from './QuizRender.module.css';
 import Card from '../Layout/Card';
 import { reportTeller } from '../helpers/helper';
 import { shuffleArray } from '../helpers/helper';
 import LoadingSpinner from '../Layout/LoadingSpinner';
+import QuizContext from '../store/quiz-context';
 let data = [];
 let totalCorrectAns = 0;
 const QuizRender = (props) => {
+  const quizCtx = useContext(QuizContext);
   const [questionSet, setQuestionSet] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [answer, setAnswer] = useState('');
   const [curQuestionNum, setCurQuestionNum] = useState(0);
   const params = useParams();
+  const navigate = useNavigate();
   const quizTopic = params.quizTopic;
   const totalQsnNum = +props.totalQsn;
   const sendReq = useCallback(async () => {
@@ -63,13 +66,20 @@ const QuizRender = (props) => {
     );
   });
   const answerSubmitHandler = () => {
+    const questionSet = { ...curQuestionSet, enteredAnswer: answer };
+    quizCtx.quizAddHandler(questionSet);
+    props.viewResultHandler();
     setCurQuestionNum((curNum) => ++curNum);
     if (curQuestionSet.correctAnswer === answer) {
       totalCorrectAns++;
     }
     setAnswer('');
   };
-  console.log(curQuestionNum, totalQsnNum);
+  const retakeQuizHandler = () => {
+    quizCtx.quizClearHandler();
+    navigate('/quiz');
+  };
+  // console.log(curQuestionNum, totalQsnNum);
   const fallbackUI = curQuestionNum === totalQsnNum && (
     <Fragment>
       <div className={classes.scoreboard}>
@@ -79,9 +89,13 @@ const QuizRender = (props) => {
         {reportTeller(totalCorrectAns, totalQsnNum)}
       </p>
       <div className={classes.retakeQuizContainer}>
-        <Link to="/quiz" className={classes.button}>
-          Take the quiz again
+        <Link to="/quiz-result" className={classes.button}>
+          View Results
         </Link>
+        <hr style={{ height: '50px' }} />
+        <button onClick={retakeQuizHandler} className={classes.button}>
+          Take the quiz again
+        </button>
       </div>
     </Fragment>
   );
@@ -107,7 +121,7 @@ const QuizRender = (props) => {
               className={classes.button}
               disabled={answer.length === 0}
             >
-              Next Question
+              {curQuestionNum === totalQsnNum - 1 ? 'Finish' : 'Next Question'}
             </button>
           </div>
         </section>
