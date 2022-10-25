@@ -6,9 +6,13 @@ import { useRef, useState } from 'react';
 const QuizConfig = (props) => {
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState(null);
+
   const selectChangeHandler = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSelectedValue(e.target.value);
+  };
+  const numberChangeHandler = (e) => {
+    props.qsnChangeHandler(e.target.value);
   };
   const quizRenderHandler = () => {
     props.authorize(true);
@@ -38,6 +42,16 @@ const QuizConfig = (props) => {
           <option>Science</option>
           <option>Society and culture</option>
           <option>Sports and Leisure</option>
+        </select>
+        <hr />
+        <label>No. of Questions: </label>
+        <select onChange={numberChangeHandler} defaultValue="5">
+          {/* Only for making the sizes of box equal */}
+          <option hidden>-select and option-</option>
+          <option>5</option>
+          <option>10</option>
+          <option>15</option>
+          <option>20</option>
         </select>
         <hr />
         <Button onClick={quizRenderHandler} disabled={!selectedValue}>

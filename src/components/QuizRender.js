@@ -13,20 +13,15 @@ const QuizRender = (props) => {
   const [answer, setAnswer] = useState('');
   const [curQuestionNum, setCurQuestionNum] = useState(0);
   const params = useParams();
-  const navigate = useNavigate();
   const quizTopic = params.quizTopic;
-  const limit = 5;
-  console.log(curQuestionNum === limit);
-  // console.log(curQuestion);
+  const totalQsnNum = +props.totalQsn;
   const sendReq = useCallback(async () => {
     setIsLoading(true);
-
-    // console.log(params);
 
     const res = await fetch(
       `https://the-trivia-api.com/api/questions?${
         quizTopic !== 'mixed' ? `categories=${quizTopic}&` : ''
-      }limit=${limit}`
+      }limit=${totalQsnNum}`
     );
     data = await res.json();
     const refinedSet = data.map((item) => {
@@ -46,7 +41,7 @@ const QuizRender = (props) => {
   const answerContainerClickHandler = (e) => {
     if (Array.from(e.target.classList).some((item) => item === classes.answer))
       return;
-    // Guarding to avoid executing this function while clicking in spaces between listss.
+    // Guarding to avoid executing this function while clicking in spaces between lists.
 
     e.target.classList.add(classes.clicked);
     const element = Array.from(
@@ -74,13 +69,34 @@ const QuizRender = (props) => {
     }
     setAnswer('');
   };
+  console.log(curQuestionNum, totalQsnNum);
+  const fallbackUI = curQuestionNum === totalQsnNum && (
+    <Fragment>
+      <div className={classes.scoreboard}>
+        Your Score:{totalCorrectAns}/{totalQsnNum}
+      </div>
+      <p className={classes.report}>
+        {reportTeller(totalCorrectAns, totalQsnNum)}
+      </p>
+      <div className={classes.retakeQuizContainer}>
+        <Link to="/quiz" className={classes.button}>
+          Take the quiz again
+        </Link>
+      </div>
+    </Fragment>
+  );
+  if (curQuestionNum === totalQsnNum) {
+    totalCorrectAns = 0;
+  }
   return (
     <Card>
       {isLoading && <LoadingSpinner />}
-
-      {questionSet.length !== 0 && curQuestionNum !== limit && (
+      {fallbackUI}
+      {questionSet.length !== 0 && curQuestionNum !== totalQsnNum && (
         <section className={classes.section}>
-          <div className={classes.question}>Q) {displayQn}</div>
+          <div className={classes.question}>
+            Q{curQuestionNum + 1}) {displayQn}
+          </div>
           <ul className={classes.answer} onClick={answerContainerClickHandler}>
             {answerSet}
           </ul>
@@ -95,21 +111,6 @@ const QuizRender = (props) => {
             </button>
           </div>
         </section>
-      )}
-      {curQuestionNum === limit && (
-        <Fragment>
-          <div className={classes.scoreboard}>
-            Your Score:{totalCorrectAns}/{limit}
-          </div>
-          <p className={classes.report}>
-            {reportTeller(totalCorrectAns, limit)}
-          </p>
-          <div className={classes.retakeQuizContainer}>
-            <Link to="/quiz" className={classes.button}>
-              Take the quiz again
-            </Link>
-          </div>
-        </Fragment>
       )}
       {/* TODO:Show curQuestion/totalQn number */}
     </Card>

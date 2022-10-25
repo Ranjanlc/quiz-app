@@ -1,19 +1,7 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-main {
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-  background: linear-gradient(#eff0f3, #efe0e3);
-}
-
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
   animation: pulse 1500ms cubic-bezier(0.76, 0.09, 0.17, 0.68) infinite;
 }
@@ -29,7 +17,7 @@ main {
 
 p {
   color: #d9376e;
-  font-size: 5rem;
+  font-size: 2rem;
   font-family: system-UI;
   font-weight: bold;
   position: relative;

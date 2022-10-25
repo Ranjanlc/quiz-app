@@ -1,12 +1,14 @@
+import { Fragment } from 'react';
+import Card from './Card';
 import classes from './LoadingSpinner.module.css';
 const LoadingSpinner = (props) => {
   return (
-    <main>
+    <Fragment>
       <div className={classes.container}>
         <svg
           className={classes.spinner}
-          width="155"
-          height="155"
+          width="100"
+          height="100"
           viewBox="0 0 155 155"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +29,7 @@ const LoadingSpinner = (props) => {
         </svg>
         <p>Loading</p>
       </div>
-    </main>
+    </Fragment>
   );
 };
 
