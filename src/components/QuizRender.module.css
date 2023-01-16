@@ -47,9 +47,9 @@ li.clicked {
   background-color: #b1995f;
   color: black;
   padding: 0.75rem 1rem;
-  /* display: flex;
-  justify-content: space-around;
-  align-items: center; */
+  /* position: absolute;
+  top: 78%;
+  left: 45%; */
   border-radius: 30px;
   font-weight: bold;
 }

@@ -16,7 +16,8 @@ const QuizConfig = (props) => {
   };
   const quizRenderHandler = () => {
     props.authorize(true);
-    navigate(`/quiz/${selectedValue.toLowerCase()?.split(' ')?.join('_')}`);
+    console.log(selectedValue);
+    navigate(`/quiz/${selectedValue}`);
   };
   return (
     <Card>
@@ -31,17 +32,15 @@ const QuizConfig = (props) => {
           <option disabled hidden>
             --Select an Option--
           </option>
-          <option>Mixed</option>
-          <option>Arts and Literature</option>
-          <option>Film and TV</option>
-          <option>Food and Drink</option>
-          <option>General Knowledge</option>
-          <option>Geography</option>
-          <option>History</option>
-          <option>Music</option>
-          <option>Science</option>
-          <option>Society and culture</option>
-          <option>Sports and Leisure</option>
+          {/* The value is just for api purposes */}
+          <option value="mixed">Mixed</option>
+          <option value="9">General Knowledge</option>
+          <option value="11">Movies</option>
+          <option value="18">Computer</option>
+          <option value="19">Maths</option>
+          <option value="21">Sports</option>
+          <option value="22">Geography</option>
+          <option value="23">History</option>
         </select>
         <hr />
         <label>No. of Questions: </label>

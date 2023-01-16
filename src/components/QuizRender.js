@@ -6,7 +6,7 @@ import { reportTeller } from '../helpers/helper';
 import { shuffleArray } from '../helpers/helper';
 import LoadingSpinner from '../Layout/LoadingSpinner';
 import QuizContext from '../store/quiz-context';
-let data = [];
+import { decode } from 'html-entities';
 let totalCorrectAns = 0;
 const QuizRender = (props) => {
   const quizCtx = useContext(QuizContext);
@@ -20,23 +20,26 @@ const QuizRender = (props) => {
   const totalQsnNum = +props.totalQsn;
   const sendReq = useCallback(async () => {
     setIsLoading(true);
-
     const res = await fetch(
-      `https://the-trivia-api.com/api/questions?${
-        quizTopic !== 'mixed' ? `categories=${quizTopic}&` : ''
-      }limit=${totalQsnNum}`
+      `https://opentdb.com/api.php?amount=${totalQsnNum}&type=multiple&${
+        quizTopic !== 'mixed' ? `category=${quizTopic}` : ''
+      }`
     );
-    data = await res.json();
-    const refinedSet = data.map((item) => {
+    const { results } = await res.json();
+    // used decode to get rid of html entities
+    const refinedSet = results.map((item) => {
       return {
-        question: item.question,
-        correctAnswer: item.correctAnswer,
-        answerSet: shuffleArray([...item.incorrectAnswers, item.correctAnswer]),
+        question: decode(item.question),
+        correctAnswer: decode(item.correct_answer),
+        answerSet: shuffleArray([
+          ...item.incorrect_answers,
+          decode(item.correct_answer),
+        ]),
       };
     });
-    setIsLoading(false);
+    setIsLoading((prevState) => !prevState);
     setQuestionSet(refinedSet);
-  }, [params]);
+  }, []);
   useEffect(() => {
     sendReq();
   }, [sendReq]);
