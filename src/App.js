@@ -1,3 +1,4 @@
+import { decode } from 'html-entities';
 import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import QuizConfig from './components/QuizConfig';
@@ -14,6 +15,7 @@ function App() {
     setResultViewable(true);
   };
   const numberChangeHandler = (number) => {
+    console.log(number);
     setTotalQsn(number);
   };
   return (
@@ -21,12 +23,7 @@ function App() {
       <Route path="/" element={<Navigate to="/quiz" />} />
       <Route
         path="/quiz"
-        element={
-          <QuizConfig
-            authorize={authorizeHandler}
-            qsnChangeHandler={numberChangeHandler}
-          />
-        }
+        element={<QuizConfig authorize={authorizeHandler} />}
       />
       <Route
         path="/quiz/:quizTopic"

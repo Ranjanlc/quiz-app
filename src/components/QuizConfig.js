@@ -2,17 +2,18 @@ import Card from '../Layout/Card';
 import Button from '../Layout/Button';
 import classes from './QuizConfig.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import QuizContext from '../store/quiz-context';
 const QuizConfig = (props) => {
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState(null);
+  const quizCtx = useContext(QuizContext);
 
   const selectChangeHandler = (e) => {
-    // console.log(e.target.value);
     setSelectedValue(e.target.value);
   };
   const numberChangeHandler = (e) => {
-    props.qsnChangeHandler(e.target.value);
+    quizCtx.setTotalQsnHandler(+e.target.value);
   };
   const quizRenderHandler = () => {
     props.authorize(true);
@@ -44,7 +45,10 @@ const QuizConfig = (props) => {
         </select>
         <hr />
         <label>No. of Questions: </label>
-        <select onChange={numberChangeHandler} defaultValue="5">
+        <select
+          onChange={numberChangeHandler}
+          defaultValue={quizCtx.totalQuestions}
+        >
           {/* Only for making the sizes of box equal */}
           <option hidden>-select and option-</option>
           <option>5</option>

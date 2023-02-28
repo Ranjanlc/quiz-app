@@ -17,7 +17,7 @@ const QuizRender = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   const quizTopic = params.quizTopic;
-  const totalQsnNum = +props.totalQsn;
+  const totalQsnNum = quizCtx.totalQuestions;
   const sendReq = useCallback(async () => {
     setIsLoading(true);
     const res = await fetch(
@@ -28,15 +28,16 @@ const QuizRender = (props) => {
     const { results } = await res.json();
     // used decode to get rid of html entities
     const refinedSet = results.map((item) => {
+      const { question, correct_answer, incorrect_answers } = item;
+      const correctAnswer = decode(correct_answer);
+      const incorrectAnswers = incorrect_answers.map((item) => decode(item));
       return {
-        question: decode(item.question),
-        correctAnswer: decode(item.correct_answer),
-        answerSet: shuffleArray([
-          ...item.incorrect_answers,
-          decode(item.correct_answer),
-        ]),
+        question: decode(question),
+        correctAnswer,
+        answerSet: shuffleArray([...incorrectAnswers, correctAnswer]),
       };
     });
+    console.log(refinedSet);
     setIsLoading((prevState) => !prevState);
     setQuestionSet(refinedSet);
   }, []);
