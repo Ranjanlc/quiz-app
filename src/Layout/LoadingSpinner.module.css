@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
   gap: 2rem;
   animation: pulse 1500ms cubic-bezier(0.76, 0.09, 0.17, 0.68) infinite;
 }

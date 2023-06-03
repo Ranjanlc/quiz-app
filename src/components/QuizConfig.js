@@ -21,8 +21,9 @@ const QuizConfig = (props) => {
     navigate(`/quiz/${selectedValue}`);
   };
   return (
-    <Card>
-      <section className={classes.section}>
+    // <Card>
+    <main className={classes.wrapper}>
+      <section className={classes['moving-border']}>
         <h1>Welcome to the quiz</h1>
         <label htmlFor="select">Choose a Category:</label>
         <select
@@ -61,7 +62,8 @@ const QuizConfig = (props) => {
           Go to Quiz
         </Button>
       </section>
-    </Card>
+    </main>
+    // </Card>
   );
 };
 export default QuizConfig;

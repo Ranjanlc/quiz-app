@@ -107,31 +107,38 @@ const QuizRender = (props) => {
     totalCorrectAns = 0;
   }
   return (
-    <Card>
+    <Fragment>
       {isLoading && <LoadingSpinner />}
-      {fallbackUI}
-      {questionSet.length !== 0 && curQuestionNum !== totalQsnNum && (
-        <section className={classes.section}>
-          <div className={classes.question}>
-            Q{curQuestionNum + 1}) {displayQn}
-          </div>
-          <ul className={classes.answer} onClick={answerContainerClickHandler}>
-            {answerSet}
-          </ul>
-          <hr />
-          <div className={classes.container}>
-            <button
-              onClick={answerSubmitHandler}
-              className={classes.button}
-              disabled={answer.length === 0}
+      <Card>
+        {fallbackUI}
+        {questionSet.length !== 0 && curQuestionNum !== totalQsnNum && (
+          <section className={classes.section}>
+            <div className={classes.question}>
+              Q{curQuestionNum + 1}) {displayQn}
+            </div>
+            <ul
+              className={classes.answer}
+              onClick={answerContainerClickHandler}
             >
-              {curQuestionNum === totalQsnNum - 1 ? 'Finish' : 'Next Question'}
-            </button>
-          </div>
-        </section>
-      )}
-      {/* TODO:Show curQuestion/totalQn number */}
-    </Card>
+              {answerSet}
+            </ul>
+            <hr />
+            <div className={classes.container}>
+              <button
+                onClick={answerSubmitHandler}
+                className={classes.button}
+                disabled={answer.length === 0}
+              >
+                {curQuestionNum === totalQsnNum - 1
+                  ? 'Finish'
+                  : 'Next Question'}
+              </button>
+            </div>
+          </section>
+        )}
+        {/* TODO:Show curQuestion/totalQn number */}
+      </Card>
+    </Fragment>
   );
 };
 export default QuizRender;
