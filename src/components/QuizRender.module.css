@@ -4,6 +4,40 @@
   display: flex;
   flex-wrap: wrap;
 } */
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: 5px;
+  font-weight: 700;
+  font-size: larger;
+}
+.flicker {
+  color: black;
+  animation: flickerAnimation 1s infinite;
+}
+@keyframes flickerAnimation {
+  0% {
+    color: black;
+  }
+  25% {
+    color: rgb(227, 91, 91);
+  }
+  50% {
+    color: red;
+  }
+  75% {
+    color: rgb(197, 47, 47);
+  }
+  100% {
+    color: black;
+  }
+}
+.timer svg {
+  width: 30px;
+  margin-right: 5px;
+}
 .question {
   width: 100%;
   font-size: large;
@@ -55,6 +89,8 @@ li.clicked {
   /* position: absolute;
   top: 78%;
   left: 45%; */
+  /* margin-top: 70px; */
+  margin-bottom: 10px;
   border-radius: 30px;
   font-weight: bold;
 }
@@ -68,6 +104,7 @@ li.clicked {
   background-color: grey;
 }
 .scoreboard {
+  padding-top: 20px;
   font-size: 50px;
   text-align: center;
 }

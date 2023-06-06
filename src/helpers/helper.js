@@ -6,16 +6,13 @@ export const shuffleArray = (array) => {
   return array;
 };
 export const reportTeller = (scored, total) => {
-  if (scored / total <= 0.4) {
-    return `Sheesh!You have minimal knowledge about the topic.`;
-  }
   if (scored / total <= 0.5) {
-    return `Common,you can better your score.`;
+    return `Common,you can improve your score.`;
   }
-  if (scored / total <= 0.7) {
+  if (scored / total <= 0.6) {
     return `Yeah,a better score.Little bit of grind more .`;
   }
-  if (scored / total >= 0.8) {
+  if (scored / total >= 0.7) {
     return `Thats my boy!!!Eliteee`;
   }
 };

@@ -23,3 +23,11 @@ li:hover {
   outline: 2px solid;
   outline-color: red;
 }
+.unanswered {
+  border: 1px solid red;
+  border-radius: 15px;
+  margin-left: 3px;
+  background-color: red;
+  color: white;
+  padding: 0 6px;
+}

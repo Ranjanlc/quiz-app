@@ -8,12 +8,17 @@ const QuizReview = (props) => {
   const [curQuestionNum, setCurQuestionNum] = useState(0);
   const ctx = useContext(QuizContext);
   const navigate = useNavigate();
-  const quizContainer = ctx.quizContainer;
+  const { quizContainer } = ctx;
+  console.log(quizContainer);
   const totalQsnNum = quizContainer.length;
   const curQuizSet = quizContainer[curQuestionNum];
-  const displayQn = curQuizSet.question;
-  const curEnteredAns = curQuizSet.enteredAnswer;
-  const curCorrectAns = curQuizSet.correctAnswer;
+  const {
+    question: displayQn,
+    enteredAnswer: curEnteredAns,
+    correctAnswer: curCorrectAns,
+  } = curQuizSet;
+  // const {enteredAnswer:curEnteredAns} = curQuizSet.enteredAnswer;
+  // const curCorrectAns = curQuizSet.correctAnswer;
   const listGenerator = (answer, className, msg = '') => {
     return (
       <li key={answer} id={answer} className={className}>
@@ -44,6 +49,11 @@ const QuizReview = (props) => {
       <section className={duplicateClasses.section}>
         <div className={duplicateClasses.question}>
           Q{curQuestionNum + 1}) {displayQn}
+          {!curEnteredAns ? (
+            <span className={classes.unanswered}>Unanswered</span>
+          ) : (
+            ''
+          )}
         </div>
         <ul className={classes.answer}>{answerSet}</ul>
         <hr />

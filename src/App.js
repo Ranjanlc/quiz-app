@@ -14,10 +14,10 @@ function App() {
   const resultViewHandler = () => {
     setResultViewable(true);
   };
-  const numberChangeHandler = (number) => {
-    console.log(number);
-    setTotalQsn(number);
-  };
+  // const numberChangeHandler = (number) => {
+  //   console.log(number);
+  //   setTotalQsn(number);
+  // };
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/quiz" />} />
