@@ -16,7 +16,7 @@ import LoadingSpinner from '../Layout/LoadingSpinner';
 import QuizContext from '../store/quiz-context';
 import { decode } from 'html-entities';
 import StopwatchIcon from '../assets/stop-watch';
-import clock from '../assets/clock1.wav';
+import clock from '../assets/clock.wav';
 
 const QuizRender = (props) => {
   const quizCtx = useContext(QuizContext);
