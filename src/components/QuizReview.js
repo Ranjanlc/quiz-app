@@ -26,7 +26,7 @@ const QuizReview = (props) => {
       </li>
     );
   };
-  const answerSet = curQuizSet.answerSet.map((answer) => {
+  const answerSet = curQuizSet.answerObj.map(({ answer, id }) => {
     if (answer === curEnteredAns && answer === curCorrectAns) {
       return listGenerator(answer, classes.correctAnswer, 'Correct');
     } else if (answer === curEnteredAns) {

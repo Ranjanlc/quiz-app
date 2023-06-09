@@ -27,7 +27,9 @@ const QuizRender = (props) => {
   const [startTimer, setStartTimer] = useState(false);
   const [curTime, setCurTime] = useState();
   const [totalCorrectAns, setTotalCorrectAns] = useState(0);
+  const [answerId, setAnswerId] = useState(null);
   const [clockAudio] = useState(new Audio(clock));
+  const [stopTimer, setStopTimer] = useState(false);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -49,10 +51,14 @@ const QuizRender = (props) => {
       const { question, correct_answer, incorrect_answers } = item;
       const correctAnswer = decode(correct_answer);
       const incorrectAnswers = incorrect_answers.map((item) => decode(item));
+      const answersArr = shuffleArray([...incorrectAnswers, correctAnswer]);
+      const answerObj = answersArr.map((answer, i) => {
+        return { id: i, answer };
+      });
       return {
         question: decode(question),
         correctAnswer,
-        answerSet: shuffleArray([...incorrectAnswers, correctAnswer]),
+        answerObj,
       };
     });
     console.log(refinedSet);
@@ -74,7 +80,6 @@ const QuizRender = (props) => {
       setCurTime(`${min}:${sec}`);
       console.log(min, sec);
       if (time === 10) {
-        console.log('chiryo ta');
         clockAudio.play();
       }
       if (time === 0) {
@@ -91,36 +96,31 @@ const QuizRender = (props) => {
     let time = 25 * (totalQsnNum / 5);
     tick();
     const timer = startTimer && setInterval(tick, 1000);
+    stopTimer && clearInterval(timer);
     return () => {
       clearInterval(timer);
     };
-  }, [sendReq, startTimer]);
-  //
-  const answerContainerClickHandler = (e) => {
-    if (Array.from(e.target.classList).some((item) => item === classes.answer))
-      return;
-    // Guarding to avoid executing this function while clicking in spaces between lists.
+  }, [sendReq, startTimer, stopTimer]);
 
-    e.target.classList.add(classes.clicked);
-    const element = Array.from(
-      e.target.parentElement.querySelectorAll('li')
-    ).filter((el) => el !== e.target);
-    element.forEach((el) => el.classList.remove(classes.clicked));
-  };
-  const listClickHandler = (item) => {
+  const listClickHandler = (item, id) => {
+    setAnswerId(id);
     setAnswer(item);
   };
-
-  const answerSet = curQuestionSet?.answerSet.map((item) => {
+  const answerSet = curQuestionSet?.answerObj.map(({ answer, id }) => {
     return (
-      <li onClick={listClickHandler.bind(null, item)} key={item}>
-        {item}
+      <li
+        onClick={listClickHandler.bind(null, answer, id)}
+        key={id}
+        className={id === answerId ? classes.clicked : ''}
+      >
+        {answer}
       </li>
     );
   });
   const answerSubmitHandler = () => {
     const questionSet = { ...curQuestionSet, enteredAnswer: answer };
     quizCtx.quizAddHandler(questionSet);
+    setAnswerId(null);
     setCurQuestionNum((curNum) => ++curNum);
     if (curQuestionSet.correctAnswer === answer) {
       setTotalCorrectAns((prevState) => ++prevState);
@@ -156,8 +156,9 @@ const QuizRender = (props) => {
       </Fragment>
     );
   }, [totalCorrectAns, totalQsnNum]);
-  if (curQuestionNum === totalQsnNum) {
+  if (curQuestionNum === totalQsnNum && !stopTimer) {
     clockAudio.pause();
+    setStopTimer(true);
   }
   return (
     <Fragment>
